@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const {Schema} = mongoose;
 
 const EmployeeSchema = Schema({
-    fullName: {type:String, required: true},
+    username: {type: String, required: true, unique: true},
+    pass: {type: String, required: true, unique: true},
     email: String,
     mobile: String,
     city: String,

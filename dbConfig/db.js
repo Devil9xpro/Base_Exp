@@ -12,7 +12,7 @@ const connectDatabase = () => {
             useFindAndModify: false,
         })
         .then(() => {
-            console.log("Successfully connected to the database");
+            console.log("Successfully connected to the database" + mongoDbUrl);
         })
         .catch((err) => {
             console.log(`Could not connect to the database. Exiting now...\n${err}`);
