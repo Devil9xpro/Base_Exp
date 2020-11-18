@@ -56,7 +56,7 @@ employeeController.delete = async (req, res) => {
     }
 }
 
-employeeController.login = async (req, res) => {
+employeeController.login = (req, res) => {
     try {
         //authenticate users
         let username = req.body.username;
@@ -65,27 +65,14 @@ employeeController.login = async (req, res) => {
             username: username,
             password: password,
         }
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN, {expiresIn: '10s'})
+        const accessToken = jwt.sign(user, process.env.JWT_PRIVATE_KEY, {expiresIn: '24h'})
         res.json({accessToken: accessToken})
     } catch (err) {
         res.status(400).json({error: err.message});
     }
 }
-
-//get employee by token
-function authenticateToken(req, res, next){
-    const authHeader = req.header['authorization']
-    const token = authHeader && authHeader.split('')[1]
-    if (token == null) return res.sendStatus(401)
-    jwt.verify(token,process.env.ACCESS_TOKEN, (err,user) =>{
-        if (err) return res.sendStatus(403)
-        req.user = user
-        next()
-    })
-}
-
+//muon logout xoa token o frontend(cookie)
+//them vao blacklist o backend
 
 module.exports = employeeController;
-
-
 
