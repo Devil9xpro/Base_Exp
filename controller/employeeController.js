@@ -74,5 +74,18 @@ employeeController.login = (req, res) => {
 //muon logout xoa token o frontend(cookie)
 //them vao blacklist o backend
 
+employeeController.getEmployeeByToken = (req, res) => {
+    try {
+        let employeeToken = req.headers.authorization
+        console.log(employeeToken)
+        let token = employeeToken.split(' ')
+        console.log(token[1])
+        let decoded = jwt.verify(token[1], 'secret-key')
+        console.log(decoded)
+    } catch (err) {
+        res.status(400).json({error: err.message});
+    }
+}
+
 module.exports = employeeController;
 
