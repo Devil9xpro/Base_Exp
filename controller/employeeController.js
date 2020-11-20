@@ -56,7 +56,7 @@ employeeController.delete = async (req, res) => {
     }
 }
 
-employeeController.login = (req, res) => {
+employeeController.login = async (req, res) => {
     try {
         //authenticate users
         let username = req.body.username;
@@ -65,9 +65,22 @@ employeeController.login = (req, res) => {
             username: username,
             password: password,
         }
-        const accessToken = jwt.sign(user, process.env.JWT_PRIVATE_KEY, {expiresIn: '24h'})
-        res.json({accessToken: accessToken})
-    } catch (err) {
+        //check user validation in db
+        employee.findOne({username: username}, function (err, document) {
+            if (err) {
+                console.log(err)
+            }
+            if (document._doc.pass === password && document._doc.username === username) {
+                const accessToken = jwt.sign(user, process.env.JWT_PRIVATE_KEY, {expiresIn: '24h'})
+                res.json({accessToken: accessToken})
+            } else {
+                res.status(403).json('Password or Username is incorrect');
+            }
+        })
+        // const accessToken = jwt.sign(user, process.env.JWT_PRIVATE_KEY, {expiresIn: '24h'})
+        // res.json({accessToken: accessToken})
+    } catch
+        (err) {
         res.status(400).json({error: err.message});
     }
 }

@@ -4,7 +4,7 @@ const {Schema} = mongoose;
 
 const EmployeeSchema = Schema({
     username: {type: String, required: true, unique: true},
-    pass: {type: String, required: true, unique: true},
+    pass: {type: String, required: true},
     email: String,
     mobile: String,
     city: String,
